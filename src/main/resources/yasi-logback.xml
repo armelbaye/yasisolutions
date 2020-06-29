@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <!-- <include resource="org/springframework/boot/logging/logback/file-appender.xml" /> -->
+    <springProperty scope="context" name="application-name" source="spring.application.name"/>
+
+    <property name="LOG_FILE" value="${LOG_PATH}/${application-name}"/> <!-- LOG_PATH represents logging.file.path from config -->
+
+        <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <encoder>
+                <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS}  [%thread]  %-5level %logger{36}.%M - %msg%n
+                </pattern>
+            </encoder>
+            <file>${LOG_FILE}.log</file> <!-- file that will be created -->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern> <!-- rolling policy by date -->
+                <maxHistory>14</maxHistory> <!-- max number of days file can be kept before deletion -->
+            </rollingPolicy>
+        </appender>
+
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread]  %-5level %logger{36}.%M - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+
+<!--
+    <springProfile name="qa">
+        <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <encoder>
+                <pattern>%d %-5level - %msg%n</pattern>
+            </encoder>
+            <file>${LOG_FILE}.log</file> &lt;!&ndash; file that will be created &ndash;&gt;
+            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                <fileNamePattern>{LOG_FILE}.%i.log</fileNamePattern> &lt;!&ndash; rolling policy by date &ndash;&gt;
+                <minIndex>1</minIndex>  &lt;!&ndash;  these are optional, since spring will default to saving the files to up to 10MB and up to 7 days, so the %i by default will be 1-7 &ndash;&gt;
+                <maxIndex>10</maxIndex>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <maxFileSize>10MB</maxFileSize>
+            </triggeringPolicy>
+        </appender>
+
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d %-5level - %msg%n</pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+
+
+   <springProfile name="prod">
+        <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <encoder>
+                <pattern>%d %-5level  - %msg%n</pattern>
+            </encoder>
+            <file>${LOG_FILE}.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <fileNamePattern>{LOG_FILE}.%i.log</fileNamePattern>
+                <maxFileSize>10MB</maxFileSize>
+                <maxHistory>14</maxHistory>
+                <totalSizeCap>100MB</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d %-5level - %msg%n</pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+-->
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ROLLING-FILE" />
+    </root>
+
+    <!-- SET UP LOGGING LEVEL PER PACKAGES OR CLASSES, setting an appeder here will cause duplicate entries since the root logger is already
+     using the STDOUT and ROLLING-FILE appender-->
+    <logger name="com.bayegroup.yasisolutions" level="debug"/>
+
+</configuration>
