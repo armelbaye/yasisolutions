@@ -7,10 +7,9 @@ spring:
     version: '@project.version' #picks up project version in pom file
   datasource:
     jdbc-url: jdbc:postgresql://localhost:5432/yasi_solutions?loggerlevel=OFF
-    username: postgres
-    password: jess88
+    username: armelbaye
+    password:
     hikari:
-      data-source-properties.stringtype: unspecified
       maximum-pool-size: 25
       connection-timeout: 6000
 
@@ -36,7 +35,7 @@ logging:
           jdbc:
             core:
               JdbcTemplate: debug
-          security: debug
+          security: error
   file:
     name: /var/log/app_logs
 

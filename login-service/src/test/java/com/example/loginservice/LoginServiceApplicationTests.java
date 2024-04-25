@@ -1,13 +1,13 @@
-package com.bayegroup.yasisolutions;
+package com.example.loginservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class YasisolutionsApplicationTests {
+class LoginServiceApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
